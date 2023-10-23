@@ -1,3 +1,6 @@
+#[cfg(feature = "zkllvm")]
+mod zkllvm;
+
 #[cfg(feature = "base_field")]
 pub mod fq;
 #[cfg(feature = "base_field")]
