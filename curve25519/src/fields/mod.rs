@@ -1,3 +1,6 @@
+#[cfg(feature = "zkllvm")]
+mod zkllvm;
+
 mod fq;
 mod fr;
 
