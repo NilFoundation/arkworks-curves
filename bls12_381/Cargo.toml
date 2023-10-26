@@ -13,14 +13,17 @@ license = "MIT/Apache-2.0"
 edition = "2021"
 
 [dependencies]
-ark-ff = { version= "0.4.0", default-features = false }
-ark-ec = { version= "0.4.0" }
+ark-ff = { git = "https://github.com/NilFoundation/arkworks-algebra", default-features = false }
+ark-ec = { git = "https://github.com/NilFoundation/arkworks-algebra" }
 ark-std = { version = "0.4.0", default-features = false }
-ark-serialize = { version = "0.4.0", default-features = false }
+ark-serialize = { git = "https://github.com/NilFoundation/arkworks-algebra", default-features = false }
+num-bigint = { version = "0.4", default-features = false, optional = true }
+zkllvm-macros = { path = "../zkllvm_macros", optional = true }
+zeroize = { version = "1", default-features = false, optional = true }
 
 [dev-dependencies]
-ark-algebra-test-templates = { version = "0.4.0", default-features = false }
-ark-algebra-bench-templates = { version = "0.4.0", default-features = false }
+ark-algebra-test-templates = { git = "https://github.com/NilFoundation/arkworks-algebra", default-features = false }
+ark-algebra-bench-templates = { git = "https://github.com/NilFoundation/arkworks-algebra", default-features = false }
 hex = "^0.4.0"
 
 [features]
@@ -29,6 +32,7 @@ std = [ "ark-std/std", "ark-ff/std", "ark-ec/std" ]
 
 curve = [ "scalar_field" ]
 scalar_field = []
+zkllvm = [ "dep:zkllvm-macros", "dep:zeroize", "dep:num-bigint" ]
 
 [[bench]]
 name = "bls12_381"
