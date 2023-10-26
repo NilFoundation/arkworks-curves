@@ -7,6 +7,7 @@
     rust_2018_idioms
 )]
 #![forbid(unsafe_code)]
+#![feature(const_trait_impl)]
 
 //! This library implements the curve25519 Montgomery curve.
 //!
