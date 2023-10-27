@@ -251,3 +251,29 @@ macro_rules! serialize_impl {
         }
     )*)
 }
+
+/// Implement default curve initialization methods.
+#[macro_export]
+macro_rules! curve_init_impl {
+    ($($curve:ty, $builtin:ty, $base:ty)*) => ($(
+        impl $curve {
+            /// Create curve element from base field coordinates.
+            #[inline(always)]
+            pub unsafe fn from_coordinates(x: $base, y: $base) -> Self {
+                Self(<$builtin>::from_coordinates(x.0, y.0))
+            }
+
+            /// Create neutral curve element.
+            #[inline(always)]
+            pub fn zero() -> Self {
+                Self(<$builtin>::zero())
+            }
+
+            /// Create generator (`one`) curve element.
+            #[inline(always)]
+            pub fn one() -> Self {
+                Self(<$builtin>::one())
+            }
+        }
+    )*)
+}
