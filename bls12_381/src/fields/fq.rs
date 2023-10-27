@@ -1,7 +1,7 @@
-use ark_ff::MontConfig;
 #[cfg(not(feature = "zkllvm"))]
-use ark_ff::fields::{Fp256, MontBackend};
+use ark_ff::fields::{Fp256, MontBackend, MontConfig};
 
+#[cfg(not(feature = "zkllvm"))]
 #[derive(MontConfig)]
 #[modulus = "4002409555221667393417789825735904156556882819939007885332058136124031650490837864442687629129015664037894272559787"]
 #[generator = "2"]

@@ -33,7 +33,7 @@ ark-curve-constraint-tests = { path = "../curve-constraint-tests", default-featu
 default = []
 std = [ "ark-std/std", "ark-ff/std", "ark-ec/std" ]
 r1cs = [ "ark-r1cs-std" ]
-zkllvm = [ "dep:ark-serialize", "dep:zkllvm-macros", "dep:zeroize", "dep:num-bigint" ]
+zkllvm = [ "dep:ark-serialize", "dep:zkllvm-macros", "dep:zeroize", "dep:num-bigint", "ark-ff/zkllvm" ]
 
 [[bench]]
 name = "curve25519"

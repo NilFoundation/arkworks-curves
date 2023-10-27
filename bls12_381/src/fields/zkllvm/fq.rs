@@ -22,6 +22,19 @@ use zkllvm_macros::*;
 #[derive(Clone, Copy, Default, PartialEq, Eq, PartialOrd, Ord)]
 pub struct Fq(__zkllvm_field_bls12381_base);
 
+impl Fq {
+    #[doc(hidden)]
+    pub const R: BigInt<6> = todo!();
+    #[doc(hidden)]
+    pub const R2: BigInt<6> = todo!();
+    #[doc(hidden)]
+    pub const INV: u64 = todo!();
+
+    pub const fn new_unchecked(value: BigInt<6>) -> Self {
+        todo!()
+    }
+}
+
 arith_impl!(Fq);
 
 deref_impl!(Fq, __zkllvm_field_bls12381_base);
@@ -58,17 +71,17 @@ impl From<Fq> for BigUint {
     }
 }
 
-impl From<BigInt<384>> for Fq {
+impl From<BigInt<6>> for Fq {
     #[inline(always)]
-    fn from(_int: BigInt<384>) -> Self {
-        todo!("conversion from `BigInt<384>` is not implemented for zkLLVM fields yet");
+    fn from(_int: BigInt<6>) -> Self {
+        todo!("conversion from `BigInt<6>` is not implemented for zkLLVM fields yet");
     }
 }
 
-impl From<Fq> for BigInt<384> {
+impl From<Fq> for BigInt<6> {
     #[inline(always)]
     fn from(_fp: Fq) -> Self {
-        todo!("conversion into `BigInt<384>` is not implemented for zkLLVM fields yet");
+        todo!("conversion into `BigInt<6>` is not implemented for zkLLVM fields yet");
     }
 }
 
@@ -87,7 +100,7 @@ impl FftField for Fq {
 }
 
 impl PrimeField for Fq {
-    type BigInt = BigInt<384>;
+    type BigInt = BigInt<6>;
 
     const MODULUS: Self::BigInt = todo!();
 
@@ -100,11 +113,11 @@ impl PrimeField for Fq {
     const TRACE_MINUS_ONE_DIV_TWO: Self::BigInt = todo!();
 
     fn from_bigint(_repr: Self::BigInt) -> Option<Self> {
-        todo!("conversion from `BigInt<384>` is not implemented for zkLLVM fields yet");
+        todo!("conversion from `BigInt<6>` is not implemented for zkLLVM fields yet");
     }
 
     fn into_bigint(self) -> Self::BigInt {
-        todo!("conversion into `BigInt<384>` is not implemented for zkLLVM fields yet");
+        todo!("conversion into `BigInt<6>` is not implemented for zkLLVM fields yet");
     }
 }
 

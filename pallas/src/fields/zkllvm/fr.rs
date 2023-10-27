@@ -22,6 +22,15 @@ use zkllvm_macros::*;
 #[derive(Clone, Copy, Default, PartialEq, Eq, PartialOrd, Ord)]
 pub struct Fr(pub __zkllvm_field_pallas_scalar);
 
+impl Fr {
+    #[doc(hidden)]
+    pub const R: BigInt<4> = todo!();
+    #[doc(hidden)]
+    pub const R2: BigInt<4> = todo!();
+    #[doc(hidden)]
+    pub const INV: u64 = todo!();
+}
+
 arith_impl!(Fr);
 
 deref_impl!(Fr, __zkllvm_field_pallas_scalar);

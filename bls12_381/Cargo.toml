@@ -32,7 +32,7 @@ std = [ "ark-std/std", "ark-ff/std", "ark-ec/std" ]
 
 curve = [ "scalar_field" ]
 scalar_field = []
-zkllvm = [ "dep:zkllvm-macros", "dep:zeroize", "dep:num-bigint" ]
+zkllvm = [ "dep:zkllvm-macros", "dep:zeroize", "dep:num-bigint", "ark-ff/zkllvm" ]
 
 [[bench]]
 name = "bls12_381"
