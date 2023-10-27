@@ -8,6 +8,7 @@
 )]
 #![forbid(unsafe_code)]
 #![feature(const_trait_impl)]
+#![feature(const_convert)]
 
 //! This library implements the curve25519 Montgomery curve.
 //!
