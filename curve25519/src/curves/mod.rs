@@ -8,7 +8,13 @@ use ark_ff::MontFp;
 #[cfg(test)]
 mod tests;
 
+#[cfg(feature = "zkllvm")]
+mod zkllvm;
+
+#[cfg(not(feature = "zkllvm"))]
 pub type EdwardsAffine = Affine<Curve25519Config>;
+#[cfg(feature = "zkllvm")]
+pub use zkllvm::EdwardsAffine;
 pub type EdwardsProjective = Projective<Curve25519Config>;
 pub type NonZeroMontgomeryAffine = MontgomeryAffine<Curve25519Config>;
 
@@ -44,7 +50,8 @@ impl TECurveConfig for Curve25519Config {
     /// The twisted Edwards form is
     ///     x = 0x547c4350219f5e19dd26a3d6668b74346a8eb726eb2396e1228cfa397ffe6bd4
     ///     y = 0x6666666666666666666666666666666666666666666666666666666666666658
-    const GENERATOR: EdwardsAffine = EdwardsAffine::new_unchecked(GENERATOR_X, GENERATOR_Y);
+    const GENERATOR: Affine<Curve25519Config> =
+        Affine::<Curve25519Config>::new_unchecked(GENERATOR_X, GENERATOR_Y);
 
     type MontCurveConfig = Curve25519Config;
 }
