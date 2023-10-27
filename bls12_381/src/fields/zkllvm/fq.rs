@@ -20,7 +20,7 @@ use zeroize::Zeroize;
 use zkllvm_macros::*;
 
 #[derive(Clone, Copy, Default, PartialEq, Eq, PartialOrd, Ord)]
-pub struct Fq(__zkllvm_field_bls12381_base);
+pub struct Fq(pub __zkllvm_field_bls12381_base);
 
 impl Fq {
     #[doc(hidden)]
