@@ -1,11 +1,15 @@
-use crate::{g1, Fq, Fr};
+use crate::{Fq, Fr};
+#[cfg(not(feature = "zkllvm"))]
+use crate::g1;
 use ark_ec::{
-    hashing::curve_maps::{swu::SWUConfig, wb::IsogenyMap},
+    hashing::curve_maps::swu::SWUConfig,
     models::{
         short_weierstrass::{Affine, SWCurveConfig},
         CurveConfig,
     },
 };
+#[cfg(not(feature = "zkllvm"))]
+use ark_ec::hashing::curve_maps::wb::IsogenyMap;
 use ark_ff::MontFp;
 
 type G1Affine = Affine<SwuIsoConfig>;
@@ -58,6 +62,7 @@ impl SWUConfig for SwuIsoConfig {
     const ZETA: Fq = MontFp!("11");
 }
 
+#[cfg(not(feature = "zkllvm"))]
 pub const ISOGENY_MAP_TO_G1 : IsogenyMap<'_, SwuIsoConfig, g1::Config, > = IsogenyMap {
     x_map_numerator : &[
         MontFp!("2712959285290305970661081772124144179193819192423276218370281158706191519995889425075952244140278856085036081760695"),

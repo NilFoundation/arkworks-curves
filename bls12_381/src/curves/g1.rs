@@ -1,25 +1,37 @@
 use ark_ec::{
     bls12,
+    models::CurveConfig,
+    short_weierstrass::{Affine, SWCurveConfig},
+};
+#[cfg(not(feature = "zkllvm"))]
+use ark_ec::{
     bls12::Bls12Config,
     hashing::curve_maps::wb::{IsogenyMap, WBConfig},
-    models::CurveConfig,
     scalar_mul::glv::GLVConfig,
-    short_weierstrass::{Affine, SWCurveConfig},
     AffineRepr, PrimeGroup,
 };
-use ark_ff::{AdditiveGroup, BigInt, MontFp, PrimeField, Zero};
-use ark_serialize::{Compress, SerializationError};
+use ark_ff::{AdditiveGroup, MontFp, Zero};
+#[cfg(not(feature = "zkllvm"))]
+use ark_ff::{BigInt, PrimeField};
+use ark_serialize::Compress;
+#[cfg(not(feature = "zkllvm"))]
+use ark_serialize::SerializationError;
+#[cfg(not(feature = "zkllvm"))]
 use ark_std::{ops::Neg, One};
 
+#[cfg(not(feature = "zkllvm"))]
 use super::g1_swu_iso;
 use crate::{
-    util::{
-        read_g1_compressed, read_g1_uncompressed, serialize_fq, EncodingFlags, G1_SERIALIZED_SIZE,
-    },
+    util::G1_SERIALIZED_SIZE,
     Fq, Fr,
 };
+#[cfg(not(feature = "zkllvm"))]
+use crate::util::{read_g1_compressed, read_g1_uncompressed, serialize_fq, EncodingFlags};
 
+#[cfg(not(feature = "zkllvm"))]
 pub type G1Affine = bls12::G1Affine<crate::Config>;
+#[cfg(feature = "zkllvm")]
+pub use crate::curves::zkllvm::G1Affine;
 pub type G1Projective = bls12::G1Projective<crate::Config>;
 
 #[derive(Clone, Default, PartialEq, Eq)]
@@ -46,7 +58,8 @@ impl SWCurveConfig for Config {
     const COEFF_B: Fq = MontFp!("4");
 
     /// AFFINE_GENERATOR_COEFFS = (G1_GENERATOR_X, G1_GENERATOR_Y)
-    const GENERATOR: G1Affine = G1Affine::new_unchecked(G1_GENERATOR_X, G1_GENERATOR_Y);
+    const GENERATOR: bls12::G1Affine<crate::Config> =
+        bls12::G1Affine::<crate::Config>::new_unchecked(G1_GENERATOR_X, G1_GENERATOR_Y);
 
     #[inline(always)]
     fn mul_by_a(_: Self::BaseField) -> Self::BaseField {
@@ -54,12 +67,14 @@ impl SWCurveConfig for Config {
     }
 
     #[inline]
+    #[cfg(not(feature = "zkllvm"))]
     fn mul_projective(p: &G1Projective, scalar: &[u64]) -> G1Projective {
         let s = Self::ScalarField::from_sign_and_limbs(true, scalar);
         GLVConfig::glv_mul_projective(*p, s)
     }
 
     #[inline]
+    #[cfg(not(feature = "zkllvm"))]
     fn is_in_correct_subgroup_assuming_on_curve(p: &G1Affine) -> bool {
         // Algorithm from Section 6 of https://eprint.iacr.org/2021/1130.
         //
@@ -79,6 +94,7 @@ impl SWCurveConfig for Config {
     }
 
     #[inline]
+    #[cfg(not(feature = "zkllvm"))]
     fn clear_cofactor(p: &G1Affine) -> G1Affine {
         // Using the effective cofactor, as explained in
         // Section 5 of https://eprint.iacr.org/2019/403.pdf.
@@ -88,6 +104,7 @@ impl SWCurveConfig for Config {
         Config::mul_affine(&p, h_eff.as_ref()).into()
     }
 
+    #[cfg(not(feature = "zkllvm"))]
     fn deserialize_with_mode<R: ark_serialize::Read>(
         mut reader: R,
         compress: ark_serialize::Compress,
@@ -106,6 +123,7 @@ impl SWCurveConfig for Config {
         Ok(p)
     }
 
+    #[cfg(not(feature = "zkllvm"))]
     fn serialize_with_mode<W: ark_serialize::Write>(
         item: &Affine<Self>,
         mut writer: W,
@@ -149,6 +167,7 @@ impl SWCurveConfig for Config {
     }
 }
 
+#[cfg(not(feature = "zkllvm"))]
 impl GLVConfig for Config {
     const ENDO_COEFFS: &'static[Self::BaseField] = &[
         MontFp!("793479390729215512621379701633421447060886740281060493010456487427281649075476305620758731620350")
@@ -177,12 +196,14 @@ impl GLVConfig for Config {
     }
 }
 
+#[cfg(not(feature = "zkllvm"))]
 fn one_minus_x() -> Fr {
     const X: Fr = Fr::from_sign_and_limbs(!crate::Config::X_IS_NEGATIVE, crate::Config::X);
     Fr::one() - X
 }
 
 // Parameters from the [IETF draft v16, section E.2](https://www.ietf.org/archive/id/draft-irtf-cfrg-hash-to-curve-16.html#name-11-isogeny-map-for-bls12-381).
+#[cfg(not(feature = "zkllvm"))]
 impl WBConfig for Config {
     type IsogenousCurve = g1_swu_iso::SwuIsoConfig;
 
@@ -211,6 +232,7 @@ pub fn endomorphism(p: &Affine<Config>) -> Affine<Config> {
 }
 
 #[cfg(test)]
+#[cfg(not(feature = "zkllvm"))]
 mod test {
 
     use super::*;

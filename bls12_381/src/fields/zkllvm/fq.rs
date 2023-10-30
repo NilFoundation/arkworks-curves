@@ -30,7 +30,7 @@ impl Fq {
     #[doc(hidden)]
     pub const INV: u64 = todo!();
 
-    pub const fn new_unchecked(value: BigInt<6>) -> Self {
+    pub const fn new_unchecked(_value: BigInt<6>) -> Self {
         todo!()
     }
 }

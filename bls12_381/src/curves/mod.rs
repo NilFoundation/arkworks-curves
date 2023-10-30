@@ -12,6 +12,9 @@ mod g2_swu_iso;
 #[cfg(test)]
 mod tests;
 
+#[cfg(feature = "zkllvm")]
+mod zkllvm;
+
 pub use self::{
     g1::{G1Affine, G1Projective},
     g2::{G2Affine, G2Projective},

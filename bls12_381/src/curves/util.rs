@@ -2,7 +2,9 @@ use ark_ec::{short_weierstrass::Affine, AffineRepr};
 use ark_ff::{BigInteger384, PrimeField};
 use ark_serialize::SerializationError;
 
-use crate::{g1::Config as G1Config, g2::Config as G2Config, Fq, Fq2, G1Affine, G2Affine};
+use crate::{g2::Config as G2Config, Fq, Fq2, G2Affine};
+#[cfg(not(feature = "zkllvm"))]
+use crate::{g1::Config as G1Config, G1Affine};
 
 pub const G1_SERIALIZED_SIZE: usize = 48;
 pub const G2_SERIALIZED_SIZE: usize = 96;
@@ -100,6 +102,7 @@ fn read_bytes_with_offset(bytes: &[u8], offset: usize, mask: bool) -> [u8; G1_SE
     tmp
 }
 
+#[cfg(not(feature = "zkllvm"))]
 pub(crate) fn read_g1_compressed<R: ark_serialize::Read>(
     mut reader: R,
 ) -> Result<Affine<G1Config>, ark_serialize::SerializationError> {
@@ -136,6 +139,7 @@ pub(crate) fn read_g1_compressed<R: ark_serialize::Read>(
     Ok(p)
 }
 
+#[cfg(not(feature = "zkllvm"))]
 pub(crate) fn read_g1_uncompressed<R: ark_serialize::Read>(
     mut reader: R,
 ) -> Result<Affine<G1Config>, ark_serialize::SerializationError> {
