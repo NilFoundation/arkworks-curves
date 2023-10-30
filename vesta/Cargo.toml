@@ -30,6 +30,7 @@ ark-curve-constraint-tests = { path = "../curve-constraint-tests", default-featu
 default = []
 std = [ "ark-std/std", "ark-ff/std", "ark-ec/std" ]
 r1cs = [ "ark-r1cs-std" ]
+zkllvm = [ "ark-pallas/zkllvm" ]
 
 [[bench]]
 name = "vesta"
