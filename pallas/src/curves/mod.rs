@@ -1,14 +1,20 @@
 use ark_ec::{
     models::CurveConfig,
-    scalar_mul::glv::GLVConfig,
     short_weierstrass::{self as sw, SWCurveConfig},
 };
-use ark_ff::{AdditiveGroup, BigInt, Field, MontFp, PrimeField, Zero};
+#[cfg(not(feature = "zkllvm"))]
+use ark_ec::scalar_mul::glv::GLVConfig;
+use ark_ff::{AdditiveGroup, Field, MontFp, Zero};
+#[cfg(not(feature = "zkllvm"))]
+use ark_ff::{BigInt, PrimeField};
 
 use crate::{fq::Fq, fr::Fr};
 
 #[cfg(test)]
 mod tests;
+
+#[cfg(feature = "zkllvm")]
+mod zkllvm;
 
 #[derive(Copy, Clone, Default, PartialEq, Eq)]
 pub struct PallasConfig;
@@ -24,7 +30,10 @@ impl CurveConfig for PallasConfig {
     const COFACTOR_INV: Fr = Fr::ONE;
 }
 
+#[cfg(not(feature = "zkllvm"))]
 pub type Affine = sw::Affine<PallasConfig>;
+#[cfg(feature = "zkllvm")]
+pub use zkllvm::Affine;
 pub type Projective = sw::Projective<PallasConfig>;
 
 impl SWCurveConfig for PallasConfig {
@@ -35,7 +44,8 @@ impl SWCurveConfig for PallasConfig {
     const COEFF_B: Fq = MontFp!("5");
 
     /// AFFINE_GENERATOR_COEFFS = (G1_GENERATOR_X, G1_GENERATOR_Y)
-    const GENERATOR: Affine = Affine::new_unchecked(G_GENERATOR_X, G_GENERATOR_Y);
+    const GENERATOR: sw::Affine<PallasConfig> =
+        sw::Affine::<PallasConfig>::new_unchecked(G_GENERATOR_X, G_GENERATOR_Y);
 
     #[inline(always)]
     fn mul_by_a(_: Self::BaseField) -> Self::BaseField {
@@ -43,6 +53,7 @@ impl SWCurveConfig for PallasConfig {
     }
 }
 
+#[cfg(not(feature = "zkllvm"))]
 impl GLVConfig for PallasConfig {
     const ENDO_COEFFS: &'static [Self::BaseField] = &[MontFp!(
         "20444556541222657078399132219657928148671392403212669005631716460534733845831"

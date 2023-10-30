@@ -37,7 +37,7 @@ curve = [ "scalar_field", "base_field" ]
 scalar_field = []
 base_field = []
 r1cs = [ "base_field", "ark-r1cs-std" ]
-zkllvm = [ "dep:ark-serialize", "dep:zkllvm-macros", "dep:zeroize", "dep:num-bigint" ]
+zkllvm = [ "dep:ark-serialize", "dep:zkllvm-macros", "dep:zeroize", "dep:num-bigint", "ark-ff/zkllvm" ]
 
 [[bench]]
 name = "pallas"
