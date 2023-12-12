@@ -7,7 +7,7 @@ use zkllvm_macros::*;
 
 use super::{Fq, Fr};
 
-#[derive(Clone, Copy, Default, PartialEq, Eq, PartialOrd, Ord)]
+#[derive(Clone, Copy, Default, PartialEq, Eq)]
 pub struct EdwardsAffine(pub __zkllvm_curve_curve25519);
 
 deref_impl!(EdwardsAffine, __zkllvm_curve_curve25519);

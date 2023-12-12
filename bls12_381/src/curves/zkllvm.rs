@@ -7,7 +7,7 @@ use zkllvm_macros::*;
 
 use crate::{Fq, Fr};
 
-#[derive(Clone, Copy, Default, PartialEq, Eq, PartialOrd, Ord)]
+#[derive(Clone, Copy, Default, PartialEq, Eq)]
 pub struct G1Affine(pub __zkllvm_curve_bls12381);
 
 deref_impl!(G1Affine, __zkllvm_curve_bls12381);
