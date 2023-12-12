@@ -1,5 +1,6 @@
 use ark_ff::{
-    AdditiveGroup, BigInt, FftField, Field, LegendreSymbol, PrimeField, SqrtPrecomputation,
+    AdditiveGroup, BigInt, FftField, Field, FromFieldConst, LegendreSymbol, PrimeField,
+    SqrtPrecomputation,
 };
 use ark_serialize::{
     CanonicalSerialize, CanonicalSerializeWithFlags, CanonicalDeserialize,
@@ -21,6 +22,12 @@ use zkllvm_macros::*;
 
 #[derive(Clone, Copy, Default, PartialEq, Eq, PartialOrd, Ord)]
 pub struct Fq(pub __zkllvm_field_pallas_base);
+
+impl const FromFieldConst<__zkllvm_field_pallas_base> for Fq {
+    fn from_field_const(lit: __zkllvm_field_pallas_base) -> Self {
+        Self(lit)
+    }
+}
 
 impl Fq {
     #[doc(hidden)]

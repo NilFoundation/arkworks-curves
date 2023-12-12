@@ -109,14 +109,14 @@ macro_rules! from_integer_impls {
 #[macro_export]
 macro_rules! from_builtin_impl {
     ($($t:ty, $builtin:ident)*) => ($(
-        impl const From<$builtin> for $t {
+        impl From<$builtin> for $t {
             #[inline(always)]
             fn from(value: $builtin) -> Self {
                 Self(value)
             }
         }
 
-        impl const From<$t> for $builtin {
+        impl From<$t> for $builtin {
             #[inline(always)]
             fn from(value: $t) -> Self {
                 value.0
